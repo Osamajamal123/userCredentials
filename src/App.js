@@ -1,11 +1,7 @@
-
-import Routepages from "./routes"
+import Routepages from "./routes";
+import "./config";
 function App() {
-  return (
-    <div >
-    <Routepages/>
-    </div>
-  );
+  return <Routepages />;
 }
 
 export default App;

@@ -1,30 +1,30 @@
 import { useState } from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, getFirestore } from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router";
 import "./style.css";
 
 const SignupPage = () => {
-  const auth = getAuth();
   const db = getFirestore();
+  const navigate = useNavigate();
+  let uid = uuidv4();
   const [userdata, setUserData] = useState({
     name: "",
-    email: "",
-    password: "",
-    confirmpassword: "",
+    price: "",
+    description: "",
+    totalStock: "",
   });
   const firebaseHandler = (e) => {
     e.preventDefault();
-    createUserWithEmailAndPassword(auth, userdata?.email, userdata?.password)
-      .then(async (res) => {
-        // const user = res.user;
-        await setDoc(doc(db, "users", res.user.uid), {
-          name: userdata?.name,
-          email: userdata?.email,
-        });
-      })
-      .catch((error) => {
-        // error
-      });
+    setDoc(doc(db, "products", uid), {
+      id: uid,
+      name: userdata?.name,
+      price: userdata?.price,
+      description: userdata?.description,
+      totalStock: userdata?.totalStock,
+    }).then((response) => {
+      navigate("/");
+    });
   };
   return (
     <div className="container-div">
@@ -32,7 +32,9 @@ const SignupPage = () => {
         className="modal-content"
         onSubmit={(event) => firebaseHandler(event)}
       >
-        <h1>Sign Up</h1>
+        <h1 className="" style={{ textAlign: "center" }}>
+          Add Product
+        </h1>
         <label for="email">
           <b>Name</b>
         </label>
@@ -48,48 +50,52 @@ const SignupPage = () => {
           required
         />
         <label for="email">
-          <b>Email</b>
+          <b>Price</b>
         </label>
         <input
           type="text"
-          placeholder="Enter Email"
-          name="email"
+          placeholder="Enter Price"
+          name="text"
           onChange={(event) => {
             let duplicate = { ...userdata };
-            duplicate.email = event.target.value;
+            duplicate.price = event.target.value;
             setUserData(duplicate);
           }}
           required
         />
 
         <label for="psw">
-          <b>Password</b>
+          <b>Description</b>
         </label>
         <input
-          type="password"
-          placeholder="Enter Password"
-          name="psw"
+          type="text"
+          placeholder="Enter"
           onChange={(event) => {
             let duplicate = { ...userdata };
-            duplicate.password = event.target.value;
+            duplicate.description = event.target.value;
             setUserData(duplicate);
           }}
           required
         />
-
-        <label>
-          <input type="checkbox" checked="checked" name="remember" /> Remember
-          me
+        <label for="psw">
+          <b>Total Stock</b>
         </label>
-
-        {/* <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p> */}
-
+        <input
+          type="text"
+          placeholder="Enter"
+          onChange={(event) => {
+            let duplicate = { ...userdata };
+            duplicate.totalStock = event.target.value;
+            setUserData(duplicate);
+          }}
+          required
+        />
         <div
           className="clearfix"
           style={{ display: "flex", justifyContent: "center" }}
         >
           <button type="submit" className="signupbtn">
-            Sign Up
+            Add Product
           </button>
         </div>
       </form>

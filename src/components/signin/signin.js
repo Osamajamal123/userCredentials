@@ -1,21 +1,21 @@
 import { useState } from "react";
 import "./style.css";
 
-const Signinpage = () => {
-  const [usercredentials, setUsercredentials] = useState({
+const SignupPage = () => {
+  const [userdata, setUserData] = useState({
     email: "",
     password: "",
+    confirmpassword: "",
   });
-  console.log("usercredentials",usercredentials)
-  const firebaseCredentials=()=>{
-
-  }
+  console.log("userdata", userdata);
+  const firebaseHandler = () => {};
   return (
-    <div>
-      <form className="modal-content" onSubmit={(event)=>firebaseCredentials(event)}>
-        <h1>Sign In</h1>
-        <p>Please fill in this form to create an account.</p>
-        <hr />
+    <div className="container-div">
+      <form
+        className="modal-content"
+        onSubmit={(event) => firebaseHandler(event)}
+      >
+        <h1>Sign Up</h1>
         <label for="email">
           <b>Email</b>
         </label>
@@ -24,9 +24,9 @@ const Signinpage = () => {
           placeholder="Enter Email"
           name="email"
           onChange={(event) => {
-          let  duplicate = { ...usercredentials };
+            let duplicate = { ...userdata };
             duplicate.email = event.target.value;
-            setUsercredentials(duplicate);
+            setUserData(duplicate);
           }}
           required
         />
@@ -39,9 +39,9 @@ const Signinpage = () => {
           placeholder="Enter Password"
           name="psw"
           onChange={(event) => {
-           let duplicate = { ...usercredentials };
+            let duplicate = { ...userdata };
             duplicate.password = event.target.value;
-            setUsercredentials(duplicate);
+            setUserData(duplicate);
           }}
           required
         />
@@ -53,20 +53,16 @@ const Signinpage = () => {
 
         {/* <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p> */}
 
-        <div className="clearfix">
-          <button
-            type="button"
-            onclick="document.getElementById('id01').style.display='none'"
-            className="cancelbtn"
-          >
-            Cancel
-          </button>
+        <div
+          className="clearfix"
+          style={{ display: "flex", justifyContent: "center" }}
+        >
           <button type="submit" className="signupbtn">
-            Sign In
+            login
           </button>
         </div>
       </form>
     </div>
   );
 };
-export default Signinpage;
+export default SignupPage;
